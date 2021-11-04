@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html">
+<!--[if IE 8]> <html class="ie8" lang="en"> <![endif]-->
+<!--[if lte IE 8]> <html class="ie8_all" lang="en"> <![endif]-->
+<!--[if IE 9]> <html class="ie9" lang="en"> <![endif]-->
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>DAEMON Sync Server</title>
+    <link type="text/css" rel="stylesheet" href="style.css"/>
+    <link type="text/css" rel="stylesheet" href="dirbrowser.css" />
+    
+    <script type="text/javascript" src="js/translation.js"></script> 
+    <script type="text/javascript" src="js/main.js" charset="utf-8"></script>
+    <script type="text/javascript" src="js/compatibility.js"></script>
+    <script type="text/javascript" src="js/dirbrowser.js"></script>
+    <script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="js/licensewizard.js"></script>
+    <script type="text/javascript" src="js/question.js"></script>
+    <script type="text/javascript" src="js/waitdialog.js"></script>
+
+    <link rel="stylesheet" href="fancybox/jquery.fancybox.css" type="text/css" media="screen" />
+    <script type="text/javascript" src="fancybox/jquery.fancybox.pack.js"></script>
+</head>
+
+<body>
+    <div id="wrapper">
+        <div id="header">
+            <div id="header-inner">
+                <div class="row">
+                    <div id="logo">
+                        <a href="javascript:void(0);" onclick="window.location.reload(true);"><span>DAEMON Sync</span></a>
+                    </div>     
+                    <div id="tabs">
+                        <ul>
+                            <li id="tabHeader_0"><a href="#"><span translatable="getstarted">Get Started</span></a></li><a href="#"></a>
+                            <li id="tabHeader_1"><a href="#"></a><a href="#"><span translatable="devices">Devices</span></a></li><a href="#"></a>
+                            <li id="tabHeader_2"><a href="#"></a><a href="#"><span translatable="settings">Settings</span></a></li><a href="#"></a>
+                            <li id="tabHeader_3"><a href="#"></a><a href="#"><span translatable="about">About</span></a></li><a href="#"></a>
+                            <li id="tabHeader_4">
+                        </ul>
+                        <a href="#"></a>
+                    </div>
+                    <div class="right-tab">
+                        <div class="server-status-inner">
+                            <a href="#"><div onclick="MainPageObj.OnStartStopServiceBtnClick();"><span class="start" id="StartStopButton"></span><span id="StartStopButtonText"></span></div></a>
+                        </div>
+                        <div class="authentication-inner">
+                            <div onclick="MainPageObj.OnSetAdminPage();"><span class="admin"></span><a href="#"><span translatable="admin"></span></a></div>
+                        </div>
+                    </div>
+                    <a href="#"></a>
+                </div>
+                </div>
+            </div>
+
+        <div class="container" id="container">
+            <div class="content-holder" id="content-holder">
+                <div class="tabContainer" id="tabContainer">
+                    <div class="tabpage" id="tabpage_0">
+                        <div class="content">
+                            <div class="scan-code">
+                                <h3>
+				    <label><span translatable="donthaveapp"></span></label><span translatable="downloadithere"></span>
+				</h3>
+                                <div class="dowload-app">
+                                    <a href="https://itunes.apple.com/us/app/daemon-sync/id992411172" target="_page"><div class="appstore"></div></a>
+                                    <a href="https://play.google.com/store/apps/details?id=com.discsoft.daemonsync" target="_page"><div class="googleplay"></div></a>
+                                </div>
+                                <!--  <div class="qr-code you-code"></div> -->
+                                <label for="PINCode"><span translatable="authguide"></span>:</label>
+                                <input type="text" id="PINCode" value="" readonly="readonly" />
+                            </div>
+                            <div class="clr"></div>
+                            <div class="footer">
+                                <div class="feedback-link"><span translatable="havequestionsuggestion"></span><a href="http://www.daemon-tools.cc/contacts/producttechnicalsupport" target="_page"><span translatable="contactsupport"></span></a></div>
+                            </div>
+                            <div class="lang-link">
+                                <a href="#" id="CurrentLanguage" onclick="OnLanguageExpand();">
+                                <span class="icons-language en"></span>
+                                English
+                                </a>
+                                <ul id="ListLanguages"></ul>
+                            </div>
+                        </div>
+                    </div><!--end tabpage_0-->
+                    <div class="tabpage" id="tabpage_1">
+                        <div class="content">
+                            <div class="devices">
+                                <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th width="25%"><span translatable="device"></span></th>
+                                            <th width="25%"><span translatable="lastsyncdate"></span></th>
+                                            <th width="5%"></th>
+                                            <th width="20%"><span translatable="notifications"></span></th>
+                                            <th width="20%">
+                                                <span translatable="browseserver"></span></thwidth>
+                                            </th>
+                                            <th width="5%"></th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                                <ul class="main-table" id="DevicesTable"></ul>
+                            </div>
+                            <div class="clr"></div>
+                        </div>
+                    </div><!--end tabpage_1-->
+                    <div class="tabpage" id="tabpage_2">
+                        <div class="content">
+                            <div class="setting">
+                                <label for="ServerName"><span class="ico-setting server-name"></span><span translatable="servername"></span>:</label>
+                                <input type="text" id="ServerName" maxlength="15" onblur="OnServerNameChanged();" />
+                                <div class="clr"></div>
+                                <label for="upload"><span class="ico-setting storage"></span><span translatable="storage"></span>:</label>
+                                <div class="file-upload">
+                                    <a href="javascript:void(0);" class="load" onclick="OnSelectFolder();"></a>
+                                    <input id="MainFolderPath" type="text" oninput="OnMainFolderChanged();" readonly="readonly"/>
+                                </div>
+                                <div class="clr"></div>
+                                <a href="javascript:void(0);" id="SaveMainFolderButton" onclick="MainPageObj.OnSaveFolderSettingsClick();"><div class="button_status green"><span translatable="save"></span></div></a>
+                            </div>
+                        </div>
+                    </div><!--end tabpage_2-->
+                    <div class="tabpage" id="tabpage_3">
+                        <div class="content">
+                            <div class="license">
+                                <h3>DAEMON Sync Server</h3>
+                                <dl>
+                                    <dt id="LicenseTypeLabel"><span translatable="licensetype"></span>:</dt>
+                                    <dd id="LicenseType"></dd>
+                                    <dt id="DaysOrSerialLabel"></dt>
+                                    <dd id="DaysOrSerial"></dd>
+                                    <dt id="InstallationNameLabel"><span translatable="installationname"></span>:</dt>
+                                    <dd id="InstallationName"></dd>
+                                    <dt id="SystemIDLabel"><span translatable="systemid"></span>:</dt>
+                                    <dd id="SystemID"></dd>
+                                    <dt><span translatable="serverversion"></span>:</dt>
+                                    <dd id="ProductVersion"></dd>
+                                </dl>
+                                <a href="javascript:void(0);" id="CheckForUpdatesButton" onclick="MainPageObj.OnCheckForUpdatesClick();"><div class="button_status green"><span translatable="check_for_updates"></span></div></a>
+                            </div>
+                            <div class="about" id="About">
+                                <p>
+                                    <span translatable="abouttext"></span>
+                                </p>
+                            </div>
+                            <div class="clr"></div>
+                            <div class="footer">
+                                    <span>
+                                        © 2000 - 2015 Disc Soft Ltd.
+                                        <span translatable="allrightsreserved"></span>
+                                    </span>
+                                <a href="http://www.daemon-tools.cc/products/daemonsync" translatable="visithomepage" target="_page"></a>
+                            </div>
+                        </div>
+                    </div><!--end tabpage_3-->
+                    <div class="tabpage" id="tabpage_4">
+                        <div class="content">
+                            <div class="authentification">
+                                <form action="">
+                                    <label for="UserLogin"><span class="ico-setting login"></span><span translatable="login"></span>:</label>
+                                    <input type="text" id="UserLogin" oninput="OnLoginChanged();" autocomplete="off" />
+                                    <div class="clr"></div>
+                                    <label for="UserPass"><span class="ico-setting password"></span><span translatable="password"></span>:</label>
+                                    <div class="your-password">
+                                         <a href="javascript:void(0);" id="UserPassVis" class="visibility" onclick="OnShowPass();"></a>
+                                         <input type="password"  id="UserPass" oninput="OnPassChanged();" placeholder="********" autocomplete="off" />
+                                    </div>
+                                    <div class="clr"></div>
+                                    <label for="UserPassConfirm"><span class="ico-setting password"></span><span translatable="confirm"></span>:</label>
+                                    <div class="your-password">
+                                        <a href="javascript:void(0);" id="UserPassConfirmVis" class="visibility" onclick="OnShowPass();"></a>
+                                        <input type="password" id="UserPassConfirm" oninput="OnPassChanged();" placeholder="********" autocomplete="off" />
+                                        <span class="help-text error" id="PassNotMatch" translatable="pass_do_not_match" style="display:none;"></span>
+                                    </div>
+                                    <div class="clr"></div>                                
+                                    <a href="javascript:void(0);" id="SaveLoginPassButton" onclick="OnSaveLoginPassClicked();"><div class="button_status grey"><span translatable="save"></span></div></a>
+                                </form>
+                            </div>
+                        </div>
+                    </div><!--end tabpage_4-->   
+                </div><!--end tabContainer-->
+            </div><!--end content-holder-->
+        </div><!--end container-->
+    </div><!--end wrapper-->
+    <p>&nbsp;</p>
+    
+    <div style="display:none;">
+        <a href="#QuestionHolder" class="fancybox" id="AQuestionHolder"/>
+        
+        <div id="QuestionHolder">
+            <div id="QuestionHolderText">
+                <h3 id="QuestionTitle"></h3>
+                <span id="QuestionText"></span><br /><br />
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="squaredThree">
+                                    <input type="checkbox" id="QuestionCb" name="check" />
+                                    <label for="QuestionCb"></label>
+                                </div>
+                            </td>
+                            <td>
+                                <span id="QuestionCbLabel"></span>
+                            </td>
+                        </tr>
+                    </tbody>    
+                </table>
+            </div>
+
+            <div id="QuestionHolderButtons">
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <a href="#ok" id="QuestionOKButton" onclick="QuestionCtrlObj.OnOKClicked();"><div class="button_status green" id="QuestionOKInner">OK</div></a>
+                            </td>
+                            <td>
+                                <a href="#" id="QuestionCloseButton" onclick="QuestionCtrlObj.OnCloseClicked();"><div class="button_status green red" id="QuestionCloseInner"><span translatable="close"></span></div></a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div style="display:none;">
+        <a href="#WaitDialog" class="fancybox" id="AWaitDialog"/>
+        
+        <div id="WaitDialog">
+                <div class="pre-load">
+                    <h3 id="WaitTitle" style="font-family: 'Montserrat', sans-serif;">
+                        <span translatable="pleasewait"></span>
+                    </h3>
+                    <div class="loader-wrapper">
+                        <div class="loader"></div>
+                        <div class="ie-loader"><span translatable="pleasewait"></span></div>
+                    </div>
+                </div>
+                <div class="clr"></div>
+        </div>
+    </div>
+
+    <div style="display:none;">
+        <a href="#DirBrowser" class="fancybox" id="ADirBrowser" />
+
+        <div id="DirBrowser">
+            <div class="lbx-content">
+                <h2 id="DBrowserTitle"><span translatable="setfolder"></span></h2>
+                <table class="WizardTableContainer">
+                    <tbody>
+                        <tr>
+                            <td>
+                                <span translatable="newfolder"></span>:
+                            </td>
+                            <td>
+                                <input id="dirName" class="txt-input" type="text" oninput="DirBrowserObj.OnStandardNameChanged();" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <div class="files-area">
+                                    <div id="DirControlHolder">
+                                        
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span translatable="newpath"></span>:
+                            </td>
+                            <td>
+                                <input id="dirFullPath" class="txt-input" type="text" disabled="true" />
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <table class="WizardTableContainer">
+                <colgroup>
+                    <col width="50%" />
+                    <col width="50%" />
+                </colgroup>
+                <tbody>
+                    <tr>
+                        <td align="right">
+                            <a class="button green" id="BrowserOKButton" onclick="DirBrowserObj.OnOKClicked();">OK</a>
+                        </td>
+                        <td align="left">
+                            <a class="button red" id="BrowserCancelButton" onclick="DirBrowserObj.OnCancelClicked();"><span translatable="cancel"></span></a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        $(document).ready(OnDocumentReady);   
+    </script>
+</body>
+</html>
